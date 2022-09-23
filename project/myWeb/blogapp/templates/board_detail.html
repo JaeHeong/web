@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div>
+    <div>
+        <div>
+            <div>
+                title: {{board.title}}
+            </div>
+            <div>
+                content: {{board.content}}
+            </div>
+        </div>
+        <a class="page-link" href="/">back</a>
+    </div>
+</div>
+{% endblock %}

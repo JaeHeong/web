@@ -7,28 +7,67 @@
     <table style="text-align:center; width:1200px; border:1px solid black;" class="table">
         <thead>
             <tr class="th_color">
-                <th>번호</th>
+                <th>접수 번호</th>
                 <th>제목</th>
                 <th>내용</th>
                 <th>작성자</th>
+                <th>작성일</th>
+                <th>최종수정일</th>
                 <th>수정하기</th>
                 <th>삭제하기</th>
             </tr>
         </thead>
-            {% for board_list in board %}
-            <tbody>
-                <tr class="td_color" >
-                    <td>{{ board_list.pk }}</td>
-                    <td>{{ board_list.title }}</td>
-                    <td>{{ board_list.content }}</td>
-                    <td>{{ board_list.user }}</td>
-                    <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">수정</button></td>
-                    <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">삭제</button></td>
-                </tr>
-            </tbody>
-            {% endfor %}
+        {% for board_list in board %}
+        <tbody>
+            <tr class="td_color">
+                <td>TT:{{ board_list.pk }}</td>
+                <td>{{ board_list.title }}</td>
+                <td>{{ board_list.content }}</td>
+                <td>{{ board_list.user }}</td>
+                <td>{{ board_list.created_at }}</td>
+                <td>{{ board_list.updated_at }}</td>
+                <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">수정</button></td>
+                <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">삭제</button></td>
+            </tr>
+        </tbody>
+        {% endfor %}
     </table>
     {% endif %}
+    <!-- 페이징처리 시작 -->
+    <div id="paging">
+        <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+            <li class="page-item">
+                <a class="page-link" href="?page=1"><<</a>
+            </li>
+            <!-- 이전페이지 -->
+            {% if board.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.previous_page_number }}">Previous</a>
+                <!-- href로 뎁스 설정 -->
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Previous</a>
+            </li>
+            {% endif %}
+            <!-- 페이지리스트 -->
+            <a class="page-link" tabindex="-1">{{ board.number }} / {{ board.paginator.num_pages }}</a>
+            <!-- 다음페이지 -->
+            {% if board.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Next</a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.paginator.num_pages }}">>></a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
     <div style="width:500px; margin:0px auto;">
         <form action="" method="POST" style="max-width:500px;">
             {% csrf_token %}

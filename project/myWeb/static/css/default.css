@@ -102,3 +102,9 @@ input[type=submit] {
 .table .td_color td {
     vertical-align:middle;
 }
+.content-box {
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+    text-overflow:ellipsis;
+}
