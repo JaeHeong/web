@@ -2,7 +2,7 @@
 {% load bootstrap4 %}
 {% block content %}
 <div style="width:1200px; margin:0px auto;">
-    <h2 style="text-align:center;">회원가입 게시판</h2><br>
+    <h2 style="text-align:center;">게시판</h2><br>
     {% if board %}
     <table style="text-align:center; width:1200px; border:1px solid black;" class="table">
         <thead>
@@ -21,8 +21,8 @@
         <tbody>
             <tr class="td_color">
                 <td>TT:{{ board_list.pk }}</td>
-                <td>{{ board_list.title }}</td>
-                <td>{{ board_list.content }}</td>
+                <td><button class="btn btn-sm rounded-pill" onclick="location.href='/detail/{{board_list.pk}}'">{{ board_list.title }}</button></td>
+                <td><button class="btn btn-sm rounded-pill" onclick="location.href='/detail/{{board_list.pk}}'">{{ board_list.content }}</button></td>
                 <td>{{ board_list.user }}</td>
                 <td>{{ board_list.created_at }}</td>
                 <td>{{ board_list.updated_at }}</td>

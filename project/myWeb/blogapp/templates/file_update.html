@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="container" style="max-width:500px;">
+    <form method="POST"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form fileuploadForm %}
+        <input class="btn btn-dark rounded-pill col-12" type="submit" value="Modify" onclick="location.href='/fileedit/{{fileupload.pk}}/'">
+    </form>
+</div>
+
+{% endblock %}

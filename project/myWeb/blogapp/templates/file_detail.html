@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div>
+    <div>
+        <div class="item" style="padding-top: 15px;">
+            <p style="text-align: left; font-size: 0.8em;">
+                <img src="{{ fileupload.imgfile.url }}" style="width: 180px; height: 150px;" alt=""> <br>
+                <span style="font-weight: bold;">{{ fileupload.title }}</span> <br>
+                writer: {{fileupload.user}} <br>
+                created_at: {{board.created_at}} <br>
+                updated_at: {{board.updated_at}} <br>
+                content: {{fileupload.content}} <br>
+            </p>
+        </div>
+        <a class="page-link" href="/file">back</a>
+    </div>
+</div>
+{% endblock %}

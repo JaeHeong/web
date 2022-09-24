@@ -4,8 +4,12 @@
     "\\project",
     "\\project\\myWeb",
     "\\project\\myWeb\\blogapp",
-    "\\project\\myWeb\\config"
+    "\\project\\myWeb\\blogapp\\templates",
+    "\\project\\myWeb\\config",
+    "\\project\\myWeb\\static",
+    "\\project\\myWeb\\static\\css",
+    "\\project\\myWeb\\templates"
   ],
-  "SelectedNode": "\\project\\myWeb\\config\\settings.py",
+  "SelectedNode": "\\project\\myWeb\\templates\\base.html",
   "PreviewInSolutionExplorer": false
 }
