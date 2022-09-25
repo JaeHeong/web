@@ -9,6 +9,7 @@ class Board(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     created_at = models.DateTimeField('date published', default=datetime.datetime.now, editable=False)
     updated_at = models.DateTimeField('date published', auto_now = True)
+    username = models.CharField(max_length=20, null=True)
 
 class FileUpload(models.Model):
     title = models.TextField(max_length=40, null=True)
@@ -18,6 +19,7 @@ class FileUpload(models.Model):
     created_at = models.DateTimeField('date published', default=datetime.datetime.now, editable=False)
     updated_at = models.DateTimeField('date published', auto_now = True)
     type = models.TextField(null=True)
+    username = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return self.title

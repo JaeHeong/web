@@ -35,16 +35,18 @@
                 <td>{{ board_list.created_at }}</td>
                 <td>{{ board_list.updated_at }}</td>
                 {% if user.is_authenticated %}
-                    <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">Modify</button></td>
-                    <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">Delete</button></td>
+                <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">Modify</button></td>
+                <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">Delete</button></td>
                 {% else %}
-                    <td>guest</td>
-                    <td>guest</td>
+                <td>guest</td>
+                <td>guest</td>
                 {% endif %}
             </tr>
         </tbody>
         {% endfor %}
     </table>
+    {% else %}
+        No page
     {% endif %}
     <!-- 페이징처리 시작 -->
     <div id="paging">
@@ -80,15 +82,29 @@
             </li>
         </ul>
     </div>
+    <div>
+        <form action="" method="get">
+            <select name="type">
+                <option value="all">All</option>
+                <option value="title_content">Title + Content</option>
+                <option value="title">Title</option>
+                <option value="content">Content</option>
+                <option value="writer">Writer</option>
+            </select>
+            <input type="text" name="q" placeholder="---search----"> 
+            <input type="submit" value="Submit">
+        </form>
+    </div>
     <!-- 페이징처리 끝 -->
     {% if user.is_authenticated %}
-        <div style="width:500px; margin:0px auto;">
-            <form action="" method="POST" style="max-width:500px;">
-                {% csrf_token %}
-                {% bootstrap_form boardForm %}
-                <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
-            </form>
-        </div>
+    <div style="width:500px; margin:0px auto;">
+        <form action="" method="POST" style="max-width:500px;">
+            {% csrf_token %}
+            {% bootstrap_form boardForm %}
+            <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
+        </form>
+    </div>
     {% endif %}
 </div>
+
 {% endblock %}

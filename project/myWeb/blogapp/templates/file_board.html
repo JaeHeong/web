@@ -35,16 +35,18 @@
                 <td>{{ fileupload_list.created_at }}</td>
                 <td>{{ fileupload_list.updated_at }}</td>
                 {% if user.is_authenticated %}
-                    <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/fileedit/{{fileupload_list.pk}}'">Modify</button></td>
-                    <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/filedelete/{{fileupload_list.pk}}'">Delete</button></td>
+                <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/fileedit/{{fileupload_list.pk}}'">Modify</button></td>
+                <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/filedelete/{{fileupload_list.pk}}'">Delete</button></td>
                 {% else %}
-                    <td>guest</td>
-                    <td>guest</td>
+                <td>guest</td>
+                <td>guest</td>
                 {% endif %}
             </tr>
         </tbody>
         {% endfor %}
     </table>
+    {% else %}
+    No page
     {% endif %}
     <div id="paging">
         <ul class="pagination justify-content-center" style="margin-top: 2rem;">
@@ -74,6 +76,19 @@
                 <a class="page-link" href="?page={{ fileupload.paginator.num_pages }}">>></a>
             </li>
         </ul>
+    </div>
+    <div>
+        <form action="" method="get">
+            <select name="type">
+                <option value="all">All</option>
+                <option value="title_content">Title + Content</option>
+                <option value="title">Title</option>
+                <option value="content">Content</option>
+                <option value="writer">Writer</option>
+            </select>
+            <input type="text" name="q" placeholder="---search----">
+            <input type="submit" value="Submit">
+        </form>
     </div>
     {% if user.is_authenticated %}
     <button class="btn btn-sm rounded-pill" onclick="location.href='/fileupload'">file upload</button>

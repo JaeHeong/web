@@ -12,6 +12,12 @@ from .models import FileUpload
 
 from django.core.paginator import Paginator
 
+from django.http import HttpResponse
+import os
+from django.conf import settings
+import mimetypes
+import urllib
+
 def board(request):
     if request.method == 'POST':
         title = request.POST['title']
@@ -21,12 +27,16 @@ def board(request):
             title=title,
             content=content,
             user=user,
+            username=user.username
         )
         board.save()
         return redirect('board')
     else:
         boardForm = BoardForm
-        board = Board.objects.all()
+        if(request.GET.get('q')):
+            board = search(request)
+        else:
+            board = Board.objects.all()
         page = request.GET.get('page', '1')
         paginator = Paginator(board, '10')
         page_obj = paginator.get_page(page)
@@ -53,8 +63,12 @@ def boardEdit(request, pk):
 
 def boardDelete(request, pk):
     board = Board.objects.get(id=pk)
-    board.delete()
-    return redirect('board')
+    if board.user == request.user:
+        board.delete()
+        return redirect('board')
+    else:
+        messages.warning(request, "삭제 권한이 없습니다.")
+        return redirect('board')
 
 def boardDetail(request, pk):
     try:
@@ -64,7 +78,10 @@ def boardDetail(request, pk):
     return render(request, 'board_detail.html', {'board':board})
 
 def file(request):
-    fileupload = FileUpload.objects.all()
+    if(request.GET.get('q')):
+        fileupload = searchFile(request)
+    else:
+        fileupload = FileUpload.objects.all()
     page = request.GET.get('page', '1')
     paginator = Paginator(fileupload, '10')
     page_obj = paginator.get_page(page)
@@ -86,6 +103,7 @@ def fileUpload(request):
                 content=content,
                 imgfile=img,
                 user=user,
+                username=user.username
             )
             fileupload.save()
             return redirect('file')
@@ -129,15 +147,12 @@ def fileEdit(request, pk):
 
 def fileDelete(request, pk):
     fileupload = FileUpload.objects.get(id=pk)
-    fileupload.delete()
-    return redirect('file')
-
-from django.http import HttpResponse
-import os
-from django.conf import settings
-import mimetypes
-import urllib
-
+    if fileupload.user == request.user:
+        fileupload.delete()
+        return redirect('file')
+    else:
+        messages.warning(request, "삭제 권한이 없습니다.")
+        return redirect('file')
 
 def fileDownload(request):
     path = request.GET['path']
@@ -152,3 +167,41 @@ def fileDownload(request):
     else:
         messages.warning(request, "다운로드 할 수 없습니다.")
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+from django.db.models import Q
+
+def search(request):
+    search_keyword = request.GET.get('q', '')
+    search_type = request.GET.get('type', '')
+    board = Board.objects.order_by('-id') 
+    if search_keyword :
+        if search_type == 'all':
+            search_board_list = board.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (username__icontains=search_keyword))
+        elif search_type == 'title_content':
+            search_board_list = board.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+        elif search_type == 'title':
+            search_board_list = board.filter(title__icontains=search_keyword)    
+        elif search_type == 'content':
+            search_board_list = board.filter(content__icontains=search_keyword)    
+        elif search_type == 'writer':
+            search_board_list = board.filter(username__icontains=search_keyword)
+        return search_board_list
+    return board
+
+def searchFile(request):
+    search_keyword = request.GET.get('q', '')
+    search_type = request.GET.get('type', '')
+    board = FileUpload.objects.order_by('-id') 
+    if search_keyword :
+        if search_type == 'all':
+            search_board_list = board.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword) | Q (username__icontains=search_keyword))
+        elif search_type == 'title_content':
+            search_board_list = board.filter(Q (title__icontains=search_keyword) | Q (content__icontains=search_keyword))
+        elif search_type == 'title':
+            search_board_list = board.filter(title__icontains=search_keyword)    
+        elif search_type == 'content':
+            search_board_list = board.filter(content__icontains=search_keyword)    
+        elif search_type == 'writer':
+            search_board_list = board.filter(username__icontains=search_keyword)
+        return search_board_list
+    return board
