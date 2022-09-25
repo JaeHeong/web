@@ -3,13 +3,14 @@
     "",
     "\\project",
     "\\project\\myWeb",
+    "\\project\\myWeb\\accounts",
+    "\\project\\myWeb\\accounts\\templates",
     "\\project\\myWeb\\blogapp",
-    "\\project\\myWeb\\blogapp\\templates",
     "\\project\\myWeb\\config",
     "\\project\\myWeb\\static",
     "\\project\\myWeb\\static\\css",
     "\\project\\myWeb\\templates"
   ],
-  "SelectedNode": "\\project\\myWeb\\templates\\base.html",
+  "SelectedNode": "\\project\\myWeb\\blogapp\\templates\\board_detail.html",
   "PreviewInSolutionExplorer": false
 }
