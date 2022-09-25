@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+</div>
+{% endfor %}
 <div style="width:1200px; margin:0px auto;">
-    <h2 style="text-align:center;">게시판</h2><br>
+    <h2 style="text-align:center;">Board</h2><br>
     {% if board %}
     <table style="text-align:center; width:1200px; border:1px solid black;" class="table">
         <thead>
             <tr class="th_color">
-                <th>접수 번호</th>
-                <th>제목</th>
-                <th>내용</th>
-                <th>작성자</th>
-                <th>작성일</th>
-                <th>최종수정일</th>
-                <th>수정하기</th>
-                <th>삭제하기</th>
+                <th>Ticket No.</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Writer</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th>Modify</th>
+                <th>Delete</th>
             </tr>
         </thead>
         {% for board_list in board %}
@@ -26,8 +34,13 @@
                 <td>{{ board_list.user }}</td>
                 <td>{{ board_list.created_at }}</td>
                 <td>{{ board_list.updated_at }}</td>
-                <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">수정</button></td>
-                <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">삭제</button></td>
+                {% if user.is_authenticated %}
+                    <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">Modify</button></td>
+                    <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">Delete</button></td>
+                {% else %}
+                    <td>guest</td>
+                    <td>guest</td>
+                {% endif %}
             </tr>
         </tbody>
         {% endfor %}
@@ -68,12 +81,14 @@
         </ul>
     </div>
     <!-- 페이징처리 끝 -->
-    <div style="width:500px; margin:0px auto;">
-        <form action="" method="POST" style="max-width:500px;">
-            {% csrf_token %}
-            {% bootstrap_form boardForm %}
-            <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
-        </form>
-    </div>
+    {% if user.is_authenticated %}
+        <div style="width:500px; margin:0px auto;">
+            <form action="" method="POST" style="max-width:500px;">
+                {% csrf_token %}
+                {% bootstrap_form boardForm %}
+                <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
+            </form>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

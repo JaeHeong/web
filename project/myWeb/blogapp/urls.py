@@ -13,4 +13,5 @@ urlpatterns = [
     path('filedetail/<int:pk>', fileUploadDetail, name='filedetail'),
     path('fileedit/<int:pk>', fileEdit, name='fileedit'),
     path('filedelete/<int:pk>', fileDelete, name='filedelete'),
+    path('download/', fileDownload, name='filedownload'),
 ]

@@ -2,22 +2,30 @@
 {% load bootstrap4 %}
 {% block content %}
 <div class="wrapper" style="text-align: center;">
-    <h1>회원가입</h1>
+    <h1>Sign up</h1>
     <form method="POST">
         {% csrf_token %}
-        아이디: <br>
-        <input name="username" type="text">
+        ID: <br>
+        <input name="username" type="text" required>
         <br>
-        비밀번호: <br>
-        <input name="password1" type="password">
+        Password: <br>
+        <input name="password1" type="password" required>
         <br>
-        비밀번호 확인: <br>
-        <input name="password2" type="password">
+        Re-enter password: <br>
+        <input name="password2" type="password" required>
         <br>
-        이메일: <br>
-        <input name="email" type="email">
+        E-mail: <br>
+        <input name="email" type="email" required>
         <br><br>
         <input type="submit" class="btn btn-primary" value="Sign Up">
     </form>
 </div>
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+    </div>
+{% endfor %}
 {% endblock %}

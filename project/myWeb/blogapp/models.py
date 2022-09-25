@@ -12,11 +12,12 @@ class Board(models.Model):
 
 class FileUpload(models.Model):
     title = models.TextField(max_length=40, null=True)
-    imgfile = models.ImageField(null=True, upload_to="", blank=True)
+    imgfile = models.FileField(null=True, upload_to="", blank=True)
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     created_at = models.DateTimeField('date published', default=datetime.datetime.now, editable=False)
     updated_at = models.DateTimeField('date published', auto_now = True)
+    type = models.TextField(null=True)
 
     def __str__(self):
         return self.title
