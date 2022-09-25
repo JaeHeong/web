@@ -3,22 +3,22 @@
 {% block content %}
 <div>
     <div>
-        <div>
-            <div>
-                title: {{board.title}}
-            </div>
-            <div>
+        <div style="text-align: center;">
+            <h1 style="font-weight:bold">
+                {{board.title}}
+            </h1>
+            <p class="lead">
                 writer: {{board.user}}
-            </div>
-            <div>
+            </p>
+            <p class="lead">
                 created_at: {{board.created_at}}
-            </div>
-            <div>
+            </p>
+            <p class="lead">
                 updated_at: {{board.updated_at}}
-            </div>
-            <div>
+            </p>
+            <p class="lead">
                 content: {{board.content}}
-            </div>
+            </p>
         </div>
         <a class="page-link" href="/">back</a>
     </div>

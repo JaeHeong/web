@@ -1,24 +1,27 @@
-<div>
-    <ul>
-        {% if user.is_authenticated %}
-            <div class="logout_div">
-                <ul class="underline-hover">
-                    <li class="logout_text"><span>You: {{user}}</span></li>
-                    <li class="logout_text"><a href="{% url 'board' %}"><span>Board</span></a></li>
-                    <li class="logout_text"><a href="{% url 'file' %}"><span>Gallery</span></a></li>
-                    <li class="logout_text"><a href="{% url 'logout' %}"><span>Sign out</span></a></li>
-                    <li class="logout_text"><a href="{% url 'leave' %}"><span>Leave forever</span></a></li>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <ul>
+            {% if user.is_authenticated %}
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="navbar-brand"><font size="5em">You: {{user}}</font></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'board' %}"><span>Board</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'file' %}"><span>Gallery</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'logout' %}"><span>Sign out</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'leave' %}"><span>Leave forever</span></a></li>
                 </ul>
             </div>
-        {% else %}
-            <div class="login_div">
-                <ul class="underline-hover">
-                    <li class="logout_text"><a href="{% url 'board' %}"><span>Board</span></a></li>
-                    <li class="logout_text"><a href="{% url 'file' %}"><span>Gallery</span></a></li>
-                    <li class="login_text"><a href="{% url 'login' %}"><span>Sign in</span></a></li>
-                    <li class="login_text"><a href="{% url 'signup' %}"><span>Sign up</span></a></li>
+            {% else %}
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'board' %}"><span>Board</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'file' %}"><span>Gallery</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'login' %}"><span>Sign in</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'signup' %}"><span>Sign up</span></a></li>
                 </ul>
             </div>
-        {% endif %}
-    </ul>
-</div>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
