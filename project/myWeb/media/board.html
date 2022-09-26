@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-auto-dismissible alert-dismissible notification-container text-center" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+</div>
+{% endfor %}
+<div style="width:1200px; margin:0px auto;">
+    <h2 class="navbar-brand" style="text-align:center;">Board</h2><br>
+    {% if board %}
+    <table style="text-align:center; width:1200px; border:1px solid black;" class="table">
+        <thead>
+            <tr class="th_color">
+                <th>Ticket No.</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Writer</th>
+                <th>Created at</th>
+                <th>Updated at</th>
+                <th>Modify</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        {% for board_list in board %}
+        <tbody>
+            <tr class="td_color">
+                <td>TT:{{ board_list.pk }}</td>
+                <td><button class="btn btn-sm rounded-pill" onclick="location.href='/detail/{{board_list.pk}}'">{{ board_list.title }}</button></td>
+                <td><button class="btn btn-sm rounded-pill" onclick="location.href='/detail/{{board_list.pk}}'">{{ board_list.content }}</button></td>
+                <td>{{ board_list.user }}</td>
+                <td>{{ board_list.created_at }}</td>
+                <td>{{ board_list.updated_at }}</td>
+                {% if user.is_authenticated %}
+                <td><button class="btn btn-secondary btn-sm rounded-pill" onclick="location.href='/edit/{{board_list.pk}}'">Modify</button></td>
+                <td><button class="btn btn-danger btn-sm rounded-pill" onclick="location.href='/delete/{{board_list.pk}}'">Delete</button></td>
+                {% else %}
+                <td>guest</td>
+                <td>guest</td>
+                {% endif %}
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% else %}
+        No page
+    {% endif %}
+    <!-- 페이징처리 시작 -->
+    <div id="paging">
+        <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+            <li class="page-item">
+                <a class="page-link" href="?page=1"><<</a>
+            </li>
+            <!-- 이전페이지 -->
+            {% if board.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.previous_page_number }}">Previous</a>
+                <!-- href로 뎁스 설정 -->
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Previous</a>
+            </li>
+            {% endif %}
+            <!-- 페이지리스트 -->
+            <a class="page-link" tabindex="-1">{{ board.number }} / {{ board.paginator.num_pages }}</a>
+            <!-- 다음페이지 -->
+            {% if board.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">Next</a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ board.paginator.num_pages }}">>></a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <form class="search_box" action="" method="get">
+            <select style="width: 100px;" name="type">
+                <option value="all">All</option>
+                <option value="title_content">Title + Content</option>
+                <option value="title">Title</option>
+                <option value="content">Content</option>
+                <option value="writer">Writer</option>
+            </select>
+            <input style="display: inline-block; width: 100px;" class="form-control" type="text" name="q" placeholder="Search"> 
+            <input style="display: inline-block; width: 100px;" class="btn btn-primary" type="submit" value="Search">
+        </form>
+    </div>
+    <!-- 페이징처리 끝 -->
+    {% if user.is_authenticated %}
+    <div style="width:500px; margin:0px auto;">
+        <form action="" method="POST" style="max-width:500px;">
+            {% csrf_token %}
+            {% bootstrap_form boardForm %}
+            <button type="submit" class="btn btn-primary rounded-pill col-12">POST</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -12,22 +12,20 @@
 <div>
     <div>
         <div class="item" style="padding-top: 15px;">
-            <p style="text-align: center; font-size: 0.8em;">
+            <p style="text-align: left; font-size: 0.8em;">
                 {% if 'mp4' in fileupload.imgfile.url %}
-                <video autoplay controls loop muted>
+                <video autoplay controls loop muted height="180" width="288">
                     <source src="{{ fileupload.imgfile.url }}" type="video/mp4">
                     Nope!
                 </video> <br>
                 {% else %}
-                <img src="{{ fileupload.imgfile.url }}" alt=""> <br>
+                <img src="{{ fileupload.imgfile.url }}" style="width: 180px; height: 150px;" alt=""> <br>
                 {% endif %}
-                <div style="text-align: center;">
-                    <h2 style="font-weight: bold;">{{ fileupload.title }}</h2><br>
-                    <p class="lead">writer: {{fileupload.user}} <br></p>
-                    <p class="lead">created_at: {{board.created_at}} <br></p>
-                    <p class="lead">updated_at: {{board.updated_at}} <br></p>
-                    <p class="lead">content: {{fileupload.content}} <br></p>
-                </div>
+                <span style="font-weight: bold;">{{ fileupload.title }}</span> <br>
+                writer: {{fileupload.user}} <br>
+                created_at: {{board.created_at}} <br>
+                updated_at: {{board.updated_at}} <br>
+                content: {{fileupload.content}} <br>
             </p>
         </div>
         <a class="page-link" href="/file">back</a>

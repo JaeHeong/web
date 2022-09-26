@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'BLOG',
         'USER': 'admin',
         'PASSWORD': 'softcamp2022!',
-        'HOST': '220.94.171.54',
+        'HOST': '10.20.10.136',
         'PORT': '1433',
         
         'OPTIONS' : {
