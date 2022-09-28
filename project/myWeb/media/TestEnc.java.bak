@@ -1,0 +1,25 @@
+import SCSL.*;
+
+public final class TestEnc
+{
+	public static void main(String[] args) 
+	{
+		String srcFile,dstFile;
+
+		srcFile="c:/softcamp/03_Sample/test.xlsx";
+		dstFile="c:/softcamp/03_Sample/test.xlsx";
+	
+		SLDsFile sFile = new SLDsFile();
+
+		sFile.SettingPathForProperty("c:/softcamp/02_Module/02_ServiceLinker/softcamp.properties"); 
+		
+		sFile.SLDsInitDAC();                                                 
+		sFile.SLDsAddUserDAC("SECURITYDOMAIN", "111001100", 0, 0, 0); 
+    
+		int ret;
+		ret = sFile.SLDsEncFileDACV2("c:/softcamp/04_KeyFile/keyDAC_SVR0.sc", "System", srcFile, dstFile, 1);                             
+		System.out.println("SLDsEncFileDAC :" + ret);
+	
+	}
+}
+

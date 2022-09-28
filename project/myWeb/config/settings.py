@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'blogapp',
     'accounts',
     'django_cleanup.apps.CleanupConfig',
+    #'jPype1',
 ]
 
 MIDDLEWARE = [

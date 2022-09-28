@@ -1,3 +1,4 @@
+from xmlrpc.client import boolean
 from django.shortcuts import render, redirect
 from django.http import Http404
 
@@ -17,6 +18,10 @@ import os
 from django.conf import settings
 import mimetypes
 import urllib
+
+import jpype
+
+from pathlib import Path
 
 def board(request):
     if request.method == 'POST':
@@ -96,7 +101,7 @@ def fileUpload(request):
             title = request.POST['title']
             content = request.POST['content']
             img = request.FILES["imgfile"]
-            type = request.FILES["imgfile"].content_type
+            type = request.FILES["imgfile"].content_type #TT
             user = request.user
             fileupload = FileUpload(
                 title=title,
@@ -106,6 +111,8 @@ def fileUpload(request):
                 username=user.username
             )
             fileupload.save()
+            encrypt(fileupload.imgfile.name)
+            #messages.warning(request, "D:\web\project\myWeb\media\\" + fileupload.imgfile.name)
             return redirect('file')
         except:
             messages.warning(request, "파일을 첨부해주세요.")
@@ -205,3 +212,33 @@ def searchFile(request):
             search_board_list = board.filter(username__icontains=search_keyword)
         return search_board_list
     return board
+
+def encrypt(file):
+    srcFile = "D:\web\project\myWeb\media\\" + file
+    #dstFile = "D:\web\project\myWeb\temp\\" + file
+    #srcFile="c:/softcamp/03_Sample/test.xlsx"
+    dstFile = "c:/softcamp/03_Sample/test_Enc.jpg"
+    
+    classpath = 'D:\web\project\myWeb\servicelinker\scsl.jar'
+
+    jpype.startJVM(
+        jpype.getDefaultJVMPath(),
+        "-Djava.class.path={classpath}".format(classpath=classpath),
+        convertStrings=True,
+        )
+
+    jpype.addClassPath("D:\web\project\myWeb\servicelinker\scsl.jar")
+    
+    jpkg = jpype.JPackage('SCSL')
+    SLDsFile = jpkg.SLDsFile()
+
+    SLDsFile.SettingPathForProperty("D:\web\project\myWeb\servicelinker\softcamp.properties")
+    
+    SLDsFile.SLDsInitDAC();                                                 
+    SLDsFile.SLDsAddUserDAC("SECURITYDOMAIN", "111001100", 0, 0, 0)
+
+    SLDsFile.SLDsEncFileDACV2("c:/softcamp/04_KeyFile/keyDAC_SVR0.sc", "System", srcFile, dstFile, 1)
+    
+
+def decrypt():
+    return 0
